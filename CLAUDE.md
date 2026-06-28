@@ -308,9 +308,17 @@ Key files:
   thumbnails & stacked meta (mobile); `see all → github`. Reviewed ✓.
 - [x] `02 frames` — drag before/after grade slider (pointer+touch; demo uses gradient +
   saturate/contrast filters, real uses flat+graded images) + asymmetric contact-sheet grid
-  (6-col desktop / 2-col mobile, `grid-flow-dense`, size tags small/wide/tall, `▶` motion tile,
-  category captions); `see all →`. Wired to Keystatic (frames collection + gradeSlider
-  singleton) with demo fallback. **← awaiting Rajarshi's review.**
+  (6-col desktop / 2-col mobile, `grid-flow-dense`, size tags small/wide/tall, category
+  captions); `see all →`. Wired to Keystatic (frames collection + gradeSlider singleton),
+  demo fallback. ADDED after review: per-tile **focal point** (`imagePosition` select →
+  CSS object-position, so any aspect ratio crops gracefully) + **video lightbox**
+  (`src/components/VideoLightbox.tsx`) — `▶` tiles open a modal; YouTube/Vimeo links embed the
+  native player (their full GUI). ALSO ADDED: **inline short clips** (PRIMARY video mode —
+  Rajarshi mostly has a-few-second shots): upload to the `video` file field → autoplays
+  muted/looped IN the tile, only while scrolled into view (`src/components/InlineVideo.tsx`,
+  IntersectionObserver); stored in `public/videos/`. The `▶`/lightbox is now only for external
+  long videos. Verified the YouTube embed
+  live. **← awaiting Rajarshi's review.**
 - [ ] `03 words` · [ ] `04 play` · [ ] `05 cv` · [ ] `06 self` ·
   [ ] colophon — each: build → STOP for review → next.
 

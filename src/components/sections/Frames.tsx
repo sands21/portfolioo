@@ -4,6 +4,8 @@ import { useRef, useState } from "react";
 import Image from "next/image";
 import { SectionHeader } from "@/components/SectionHeader";
 import { Reveal } from "@/components/Reveal";
+import { VideoLightbox } from "@/components/VideoLightbox";
+import { InlineVideo } from "@/components/InlineVideo";
 import type { Frame, GradeSlider, TileSize } from "@/lib/content";
 
 const DEMO_GRAD =
@@ -93,6 +95,8 @@ function GradeCompare({ data }: { data: GradeSlider }) {
 }
 
 export function Frames({ grade, frames }: { grade: GradeSlider; frames: Frame[] }) {
+  const [video, setVideo] = useState<string | null>(null);
+
   return (
     <section
       id="frames"
@@ -120,24 +124,51 @@ export function Frames({ grade, frames }: { grade: GradeSlider; frames: Frame[] 
       </Reveal>
 
       <div className="grid auto-rows-[118px] grid-flow-dense grid-cols-2 gap-3 md:grid-cols-6">
-        {frames.map((f, i) => (
-          <div
-            key={f.slug}
-            className={`relative overflow-hidden rounded-lg border border-hairline ${sizeClass[f.size]}`}
-          >
-            {f.image ? (
-              <Image src={f.image} alt={f.caption} fill sizes="(max-width:768px) 50vw, 33vw" className="object-cover" />
-            ) : (
-              <div className="absolute inset-0" style={{ backgroundImage: gradientFor(f, i) }} />
-            )}
-            {f.category === "motion" && (
-              <div className="absolute inset-0 grid place-items-center text-2xl text-paper">▶</div>
-            )}
-            <span className={chip}>
-              {f.category} · {f.caption}
-            </span>
-          </div>
-        ))}
+        {frames.map((f, i) => {
+          const hasInline = Boolean(f.video);
+          const hasLightbox = !hasInline && Boolean(f.videoUrl);
+          const inner = (
+            <>
+              {hasInline ? (
+                <InlineVideo src={f.video!} poster={f.image} position={f.imagePosition} />
+              ) : f.image ? (
+                <Image
+                  src={f.image}
+                  alt={f.caption}
+                  fill
+                  sizes="(max-width:768px) 50vw, 33vw"
+                  className="object-cover"
+                  style={{ objectPosition: f.imagePosition }}
+                />
+              ) : (
+                <div className="absolute inset-0" style={{ backgroundImage: gradientFor(f, i) }} />
+              )}
+              {hasLightbox && (
+                <div className="absolute inset-0 grid place-items-center text-2xl text-paper transition-transform group-hover:scale-110">
+                  ▶
+                </div>
+              )}
+              <span className={chip}>
+                {f.category} · {f.caption}
+              </span>
+            </>
+          );
+          const cls = `group relative overflow-hidden rounded-lg border border-hairline ${sizeClass[f.size]}`;
+          return hasLightbox ? (
+            <button
+              key={f.slug}
+              type="button"
+              onClick={() => setVideo(f.videoUrl)}
+              className={`${cls} cursor-pointer text-left`}
+            >
+              {inner}
+            </button>
+          ) : (
+            <div key={f.slug} className={cls}>
+              {inner}
+            </div>
+          );
+        })}
       </div>
 
       <a
@@ -146,6 +177,8 @@ export function Frames({ grade, frames }: { grade: GradeSlider; frames: Frame[] 
       >
         see all →
       </a>
+
+      {video && <VideoLightbox url={video} onClose={() => setVideo(null)} />}
     </section>
   );
 }

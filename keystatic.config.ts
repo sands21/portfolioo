@@ -79,7 +79,32 @@ export default config({
           directory: "public/images/frames",
           publicPath: "/images/frames/",
         }),
-        videoUrl: fields.url({ label: "Video URL (for motion tiles)" }),
+        imagePosition: fields.select({
+          label: "Image focal point",
+          description: "which part stays in frame when the photo is cropped to the tile",
+          options: [
+            { label: "Center", value: "center" },
+            { label: "Top", value: "top" },
+            { label: "Bottom", value: "bottom" },
+            { label: "Left", value: "left" },
+            { label: "Right", value: "right" },
+            { label: "Top left", value: "left top" },
+            { label: "Top right", value: "right top" },
+            { label: "Bottom left", value: "left bottom" },
+            { label: "Bottom right", value: "right bottom" },
+          ],
+          defaultValue: "center",
+        }),
+        video: fields.file({
+          label: "Short clip (mp4/webm)",
+          description: "plays inline, muted, looped, right in the tile — best for a few-second shots",
+          directory: "public/videos",
+          publicPath: "/videos/",
+        }),
+        videoUrl: fields.url({
+          label: "External video URL (YouTube / Vimeo)",
+          description: "for longer videos — opens in a click-to-play lightbox",
+        }),
       },
     }),
 

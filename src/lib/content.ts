@@ -100,6 +100,8 @@ export type Frame = {
   size: TileSize;
   date: string;
   image: string | null;
+  imagePosition: string;
+  video: string | null;
   videoUrl: string | null;
   order: number;
 };
@@ -111,12 +113,12 @@ export type GradeSlider = {
 };
 
 const demoFrames: Frame[] = [
-  { slug: "bangalore-night", caption: "bangalore, night", category: "still", size: "tall", date: "2024", image: null, videoUrl: null, order: 0 },
-  { slug: "street", caption: "street", category: "still", size: "small", date: "2024", image: null, videoUrl: null, order: 1 },
-  { slug: "reel-pg-day", caption: "a day in the pg", category: "motion", size: "small", date: "2024", image: null, videoUrl: null, order: 2 },
-  { slug: "client-post", caption: "client post", category: "branding", size: "wide", date: "2023", image: null, videoUrl: null, order: 3 },
-  { slug: "whole-foods", caption: "whole foods", category: "still", size: "small", date: "2024", image: null, videoUrl: null, order: 4 },
-  { slug: "assam-river", caption: "assam, river", category: "still", size: "small", date: "2023", image: null, videoUrl: null, order: 5 },
+  { slug: "bangalore-night", caption: "bangalore, night", category: "still", size: "tall", date: "2024", image: null, imagePosition: "center", video: null, videoUrl: null, order: 0 },
+  { slug: "street", caption: "street", category: "still", size: "small", date: "2024", image: null, imagePosition: "center", video: null, videoUrl: null, order: 1 },
+  { slug: "reel-pg-day", caption: "a day in the pg", category: "motion", size: "small", date: "2024", image: null, imagePosition: "center", video: "https://www.w3schools.com/html/mov_bbb.mp4", videoUrl: null, order: 2 },
+  { slug: "client-post", caption: "client post", category: "branding", size: "wide", date: "2023", image: null, imagePosition: "center", video: null, videoUrl: null, order: 3 },
+  { slug: "whole-foods", caption: "whole foods", category: "still", size: "small", date: "2024", image: null, imagePosition: "center", video: null, videoUrl: null, order: 4 },
+  { slug: "assam-river", caption: "assam, river", category: "still", size: "small", date: "2023", image: null, imagePosition: "center", video: null, videoUrl: null, order: 5 },
 ];
 
 const demoGradeSlider: GradeSlider = {
@@ -138,6 +140,8 @@ export async function getFrames(): Promise<Frame[]> {
         size: (e.size as TileSize) ?? "small",
         date: (e.date as string) ?? "",
         image: (e.image as string) ?? null,
+        imagePosition: (e.imagePosition as string) ?? "center",
+        video: (e.video as string) ?? null,
         videoUrl: (e.videoUrl as string) ?? null,
         order: (e.order as number) ?? 0,
       } satisfies Frame;

@@ -31,6 +31,7 @@ testimonials, and your profile/contact. Saving writes the files + images listed 
 | ---------------------------- | ----------------------- |
 | project screenshots          | `public/images/projects/` |
 | frames photos / video posters| `public/images/frames/`   |
+| frames short clips (mp4/webm) | `public/videos/`         |
 | grade slider (flat + graded) | `public/images/grade/`    |
 | résumé (PDF)                 | `public/files/`           |
 
