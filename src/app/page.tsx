@@ -1,24 +1,32 @@
 import { TopBar } from "@/components/TopBar";
 import { Hero } from "@/components/Hero";
+import { Build } from "@/components/sections/Build";
+import { Frames } from "@/components/sections/Frames";
+import { getProjects, getFrames, getGradeSlider } from "@/lib/content";
 
-const sections = [
-  { id: "build", n: "01", word: "build" },
-  { id: "frames", n: "02", word: "frames" },
+const placeholders = [
   { id: "words", n: "03", word: "words" },
   { id: "play", n: "04", word: "play" },
   { id: "cv", n: "05", word: "cv" },
   { id: "self", n: "06", word: "self" },
 ];
 
-export default function Home() {
+export default async function Home() {
+  const [projects, frames, grade] = await Promise.all([
+    getProjects(),
+    getFrames(),
+    getGradeSlider(),
+  ]);
+
   return (
     <>
       <TopBar />
       <main>
         <Hero />
+        <Build projects={projects} />
+        <Frames grade={grade} frames={frames} />
 
-        {/* Section placeholders — each becomes its own component next, wired to the CMS. */}
-        {sections.map((s) => (
+        {placeholders.map((s) => (
           <section
             key={s.id}
             id={s.id}

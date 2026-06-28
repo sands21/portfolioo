@@ -288,6 +288,11 @@ Fill these in as Rajarshi provides them.
 Keystatic (local mode). `npm run dev` → site at `:3000`, CMS at `:3000/keystatic`. Git remote
 `origin` = `https://github.com/sands21/portfolioo.git` (DO NOT push — Rajarshi pushes himself).
 
+> **Next.js 16 is newer than most training data — it has breaking changes** (APIs, conventions,
+> file structure). Before writing Next-specific code, check the bundled docs in
+> `node_modules/next/dist/docs/`. (This note replaces the auto-generated AGENTS.md, now deleted.)
+> Tailwind here is **v4** (CSS-first `@theme` in `globals.css`; no `tailwind.config.js`).
+
 Key files:
 - `keystatic.config.ts` — all collections/singletons + asset paths (see `CONTENT.md`).
 - `src/lib/fonts.ts` — type system; Fraunces STAND-INS active, real Exposure/Editorial New
@@ -297,13 +302,23 @@ Key files:
 - Content → `src/content/*` (+ `public/images/*`, `public/files/*`). `CONTENT.md` documents it.
 
 **Sections status:**
-- [x] `00 hello` — hero + top bar + index, desktop + mobile, expose-on-load wired (stand-in
-  font sim). Built in real cream & oxblood. **← awaiting Rajarshi's review.**
-- [ ] `01 build` · [ ] `02 frames` · [ ] `03 words` · [ ] `04 play` · [ ] `05 cv` ·
-  [ ] `06 self` · [ ] colophon — each: build → STOP for review → next.
+- [x] `00 hello` — hero + top bar + index, desktop + mobile, expose-on-load wired. Reviewed ✓.
+- [x] Palette switched to **film (teal & amber)** live (reviewed ✓).
+- [x] `01 build` — featured + work-index list; floating cursor thumbnail (desktop) + inline
+  thumbnails & stacked meta (mobile); `see all → github`. Reviewed ✓.
+- [x] `02 frames` — drag before/after grade slider (pointer+touch; demo uses gradient +
+  saturate/contrast filters, real uses flat+graded images) + asymmetric contact-sheet grid
+  (6-col desktop / 2-col mobile, `grid-flow-dense`, size tags small/wide/tall, `▶` motion tile,
+  category captions); `see all →`. Wired to Keystatic (frames collection + gradeSlider
+  singleton) with demo fallback. **← awaiting Rajarshi's review.**
+- [ ] `03 words` · [ ] `04 play` · [ ] `05 cv` · [ ] `06 self` ·
+  [ ] colophon — each: build → STOP for review → next.
 
-NOTE: sections currently render as placeholders on `page.tsx`; front-end is not yet wired to
-read from Keystatic (that happens as each section is built).
+**Content reading pattern (established):** `src/lib/reader.ts` (createReader) +
+`src/lib/content.ts` (typed getters with DEMO fallback when a collection is empty). Server
+component fetches → passes to a client section component. Reuse for every section.
+Shared bits: `src/components/SectionHeader.tsx` (number-once header), `src/components/Reveal.tsx`
+(scroll entrance). Remaining sections still render as placeholders in `page.tsx`.
 NOTE: the frontend-design skill flags "cream bg + high-contrast serif + terracotta accent" as a
 generic default — we chose it deliberately; differentiators = Exposure expose-on-load signature,
 per-section distinct structures, real photos + voice. Revisit palette if it ever feels generic.
