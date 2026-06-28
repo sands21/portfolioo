@@ -1,26 +1,53 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/**
+ * "The Index" — design tokens.
+ * Palette: "film" — teal & amber (a nod to Rajarshi's colour grading).
+ * Tokens are semantic so swapping palettes later = edit values here only.
+ * Dark mode ("darkroom") is DEFERRED — build light-first.
+ */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* colour */
+  --color-paper: #e9ebe4; /* background — cool neutral */
+  --color-ink: #1b201e; /* text */
+  --color-accent: #bc6a2e; /* amber — numbers, emphasis, arrows */
+  --color-accent2: #1e5f5a; /* teal — links / underlines */
+  --color-muted: #7c8884;
+  --color-hairline: #d6d9d0;
+  --color-card: #eff1ea;
+  --color-body: #33403b;
+
+  /* type — map Tailwind font utilities to the next/font CSS vars */
+  --font-exposure: var(--ff-exposure);
+  --font-display: var(--ff-display);
+  --font-mono: var(--ff-mono);
+  --font-body: var(--ff-body);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-paper);
+  color: var(--color-ink);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-body), Inter, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* respect reduced-motion globally */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+::selection {
+  background: var(--color-accent2);
+  color: var(--color-paper);
 }
