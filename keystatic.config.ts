@@ -219,6 +219,21 @@ export default config({
       },
     }),
 
+    // 06 self — the long-form about (editable prose)
+    about: singleton({
+      label: "Self — about",
+      path: "src/content/about",
+      format: { data: "yaml" },
+      schema: {
+        lead: fields.text({ label: "Lead statement", multiline: true }),
+        origin: fields.text({ label: "origin", multiline: true }),
+        now: fields.text({ label: "now", multiline: true }),
+        theDeal: fields.text({ label: "the deal", multiline: true }),
+        honestly: fields.text({ label: "honestly", multiline: true }),
+        closing: fields.text({ label: "closing line", multiline: true }),
+      },
+    }),
+
     // the one featured before/after colour-grade slider in 02 frames
     gradeSlider: singleton({
       label: "Frames — grade slider (featured)",

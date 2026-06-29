@@ -5,6 +5,7 @@ import { Frames } from "@/components/sections/Frames";
 import { Words } from "@/components/sections/Words";
 import { Play } from "@/components/sections/Play";
 import { Cv } from "@/components/sections/Cv";
+import { Self } from "@/components/sections/Self";
 import {
   getProjects,
   getFrames,
@@ -13,21 +14,32 @@ import {
   getPlayCards,
   getExperience,
   getProfile,
+  getAbout,
+  getTestimonials,
 } from "@/lib/content";
 
-const placeholders = [{ id: "self", n: "06", word: "self" }];
-
 export default async function Home() {
-  const [projects, frames, grade, writing, playCards, experience, profile] =
-    await Promise.all([
-      getProjects(),
-      getFrames(),
-      getGradeSlider(),
-      getWriting(),
-      getPlayCards(),
-      getExperience(),
-      getProfile(),
-    ]);
+  const [
+    projects,
+    frames,
+    grade,
+    writing,
+    playCards,
+    experience,
+    profile,
+    about,
+    testimonials,
+  ] = await Promise.all([
+    getProjects(),
+    getFrames(),
+    getGradeSlider(),
+    getWriting(),
+    getPlayCards(),
+    getExperience(),
+    getProfile(),
+    getAbout(),
+    getTestimonials(),
+  ]);
 
   return (
     <>
@@ -39,24 +51,7 @@ export default async function Home() {
         <Words writing={writing} />
         <Play cards={playCards} />
         <Cv experience={experience} profile={profile} />
-
-        {placeholders.map((s) => (
-          <section
-            key={s.id}
-            id={s.id}
-            className="mx-auto max-w-6xl scroll-mt-20 border-t border-hairline px-6 py-24"
-          >
-            <div className="flex items-baseline gap-4">
-              <span className="font-mono text-[15px] text-accent">{s.n}</span>
-              <h2 className="font-display text-[clamp(2rem,6vw,3.4rem)] leading-none text-ink">
-                {s.word}
-              </h2>
-            </div>
-            <p className="mt-4 font-mono text-[11px] text-muted">
-              — building this section next —
-            </p>
-          </section>
-        ))}
+        <Self about={about} profile={profile} testimonial={testimonials[0] ?? null} />
       </main>
 
       <footer className="border-t border-hairline px-6 py-10 text-center font-mono text-[11px] text-muted">

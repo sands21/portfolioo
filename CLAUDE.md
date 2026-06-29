@@ -334,7 +334,12 @@ Key files:
   newest-first) + toolkit strip (design/build/motion+video/photo chips, hardcoded in `Cv.tsx`).
   Wired to Keystatic (experience collection + profile) + demo fallback. Desktop + mobile.
   **← awaiting Rajarshi's review.**
-- [ ] `06 self` · [ ] colophon — each: build → STOP for review → next.
+- [x] `06 self` — big serif lead + story via hanging sideheads (origin/now/the deal/honestly) +
+  `assam → bangalore` typographic moment + testimonial pull-quote (section break) + closing line
+  → `say hi →` (#contact). Editable via new `about` singleton + testimonials collection;
+  demo fallback. Desktop + mobile. **← awaiting Rajarshi's review.**
+- [ ] colophon / contact — the last piece (dark "back cover": say hi + contact links + fonts/
+  palette credit + now-playing chip; `id="contact"`). Build → STOP for review.
 
 ENV NEEDED (later): `LASTFM_API_KEY` in `.env.local` (+ Vercel) for the live now-playing card.
 

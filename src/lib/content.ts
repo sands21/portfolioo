@@ -388,3 +388,65 @@ export async function getExperience(): Promise<Experience[]> {
     })
     .sort((a, b) => a.order - b.order);
 }
+
+/* ---------------- 06 self ---------------- */
+
+export type About = {
+  lead: string;
+  origin: string;
+  now: string;
+  theDeal: string;
+  honestly: string;
+  closing: string;
+};
+
+const demoAbout: About = {
+  lead: "i'm a curious person who got too into everything — and made a website about it.",
+  origin:
+    "i'm from assam — the green, slow, rivers-everywhere kind of place. it's still home in the way that matters.",
+  now: "these days i'm in a pg room in bangalore, working remote, quietly making things on the internet at odd hours.",
+  theDeal:
+    "i design and build websites, edit video, shoot photos, colour grade, write a little, and lose whole weekends to new music and new software. “curious” is the one word that explains all of it.",
+  honestly:
+    "goofy once i'm comfortable, quiet until then. my jokes are a coin flip. i save more inspiration than any human could ever get through.",
+  closing: "that's the long version. want to make something, or just talk music?",
+};
+
+export async function getAbout(): Promise<About> {
+  const a = (await reader.singletons.about.read()) as Record<string, unknown> | null;
+  if (!a) return demoAbout;
+  return {
+    lead: (a.lead as string) || demoAbout.lead,
+    origin: (a.origin as string) || demoAbout.origin,
+    now: (a.now as string) || demoAbout.now,
+    theDeal: (a.theDeal as string) || demoAbout.theDeal,
+    honestly: (a.honestly as string) || demoAbout.honestly,
+    closing: (a.closing as string) || demoAbout.closing,
+  };
+}
+
+export type Testimonial = { slug: string; name: string; role: string; quote: string };
+
+const demoTestimonials: Testimonial[] = [
+  {
+    slug: "a-client",
+    name: "a client",
+    role: "brand designer",
+    quote:
+      "rajarshi just gets how a thing should feel. he obsesses over the details most people skip right past.",
+  },
+];
+
+export async function getTestimonials(): Promise<Testimonial[]> {
+  const items = await reader.collections.testimonials.all();
+  if (!items.length) return demoTestimonials;
+  return items.map((i) => {
+    const e = i.entry as Record<string, unknown>;
+    return {
+      slug: i.slug,
+      name: (e.name as string) ?? i.slug,
+      role: (e.role as string) ?? "",
+      quote: (e.quote as string) ?? "",
+    } satisfies Testimonial;
+  });
+}
