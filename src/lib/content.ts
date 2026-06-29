@@ -158,3 +158,80 @@ export async function getGradeSlider(): Promise<GradeSlider> {
     graded: (s.graded as string) ?? null,
   };
 }
+
+/* ---------------- 03 words ---------------- */
+
+export type Writing = {
+  slug: string;
+  title: string;
+  latest: boolean;
+  kind: "essay" | "note";
+  date: string;
+  readTime: string;
+  excerpt: string;
+  url: string | null;
+};
+
+const demoWriting: Writing[] = [
+  {
+    slug: "why-i-test-every-llm",
+    title: "why i test every new llm that drops",
+    latest: true,
+    kind: "essay",
+    date: "may 2025",
+    readTime: "6 min",
+    excerpt:
+      "i can't really explain the urge. a new model appears and i have to know how it thinks — where it breaks, what it refuses, the exact moment it stops being clever and starts guessing.",
+    url: "#",
+  },
+  {
+    slug: "colour-grading-a-feeling",
+    title: "colour grading a feeling, not a photo",
+    latest: false,
+    kind: "essay",
+    date: "apr 2025",
+    readTime: "4 min",
+    excerpt: "",
+    url: "#",
+  },
+  {
+    slug: "ugly-first-drafts",
+    title: "in defense of ugly first drafts",
+    latest: false,
+    kind: "note",
+    date: "feb 2025",
+    readTime: "3 min",
+    excerpt: "",
+    url: "#",
+  },
+  {
+    slug: "bangalore-pg-window",
+    title: "bangalore, from a pg window",
+    latest: false,
+    kind: "essay",
+    date: "dec 2024",
+    readTime: "5 min",
+    excerpt: "",
+    url: "#",
+  },
+];
+
+export async function getWriting(): Promise<Writing[]> {
+  const items = await reader.collections.writing.all();
+  if (!items.length) return demoWriting;
+  const mapped = items.map((i) => {
+    const e = i.entry as Record<string, unknown>;
+    return {
+      slug: i.slug,
+      title: (e.title as string) ?? i.slug,
+      latest: Boolean(e.latest),
+      kind: (e.kind as "essay" | "note") ?? "essay",
+      date: (e.date as string) ?? "",
+      readTime: (e.readTime as string) ?? "",
+      excerpt: (e.excerpt as string) ?? "",
+      url: (e.url as string) ?? null,
+    } satisfies Writing;
+  });
+  // latest first, rest keep order
+  return mapped.sort((a, b) => Number(b.latest) - Number(a.latest));
+}

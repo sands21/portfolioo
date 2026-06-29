@@ -319,7 +319,11 @@ Key files:
   IntersectionObserver); stored in `public/videos/`. The `▶`/lightbox is now only for external
   long videos. Verified the YouTube embed
   live. **← awaiting Rajarshi's review.**
-- [ ] `03 words` · [ ] `04 play` · [ ] `05 cv` · [ ] `06 self` ·
+- [x] `03 words` — type-only reading room; featured latest (hanging `latest` sidehead + amber
+  drop-cap excerpt + `read on medium →`) + reading list sharing the left rail (essay/note tag ·
+  title · date·min); `see more → medium`. Wired to Keystatic (writing collection) + demo
+  fallback. Desktop + mobile. **← awaiting Rajarshi's review.**
+- [ ] `04 play` · [ ] `05 cv` · [ ] `06 self` ·
   [ ] colophon — each: build → STOP for review → next.
 
 **Content reading pattern (established):** `src/lib/reader.ts` (createReader) +

@@ -2,20 +2,21 @@ import { TopBar } from "@/components/TopBar";
 import { Hero } from "@/components/Hero";
 import { Build } from "@/components/sections/Build";
 import { Frames } from "@/components/sections/Frames";
-import { getProjects, getFrames, getGradeSlider } from "@/lib/content";
+import { Words } from "@/components/sections/Words";
+import { getProjects, getFrames, getGradeSlider, getWriting } from "@/lib/content";
 
 const placeholders = [
-  { id: "words", n: "03", word: "words" },
   { id: "play", n: "04", word: "play" },
   { id: "cv", n: "05", word: "cv" },
   { id: "self", n: "06", word: "self" },
 ];
 
 export default async function Home() {
-  const [projects, frames, grade] = await Promise.all([
+  const [projects, frames, grade, writing] = await Promise.all([
     getProjects(),
     getFrames(),
     getGradeSlider(),
+    getWriting(),
   ]);
 
   return (
@@ -25,6 +26,7 @@ export default async function Home() {
         <Hero />
         <Build projects={projects} />
         <Frames grade={grade} frames={frames} />
+        <Words writing={writing} />
 
         {placeholders.map((s) => (
           <section
