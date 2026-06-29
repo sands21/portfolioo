@@ -323,8 +323,15 @@ Key files:
   drop-cap excerpt + `read on medium →`) + reading list sharing the left rail (essay/note tag ·
   title · date·min); `see more → medium`. Wired to Keystatic (writing collection) + demo
   fallback. Desktop + mobile. **← awaiting Rajarshi's review.**
-- [ ] `04 play` · [ ] `05 cv` · [ ] `06 self` ·
-  [ ] colophon — each: build → STOP for review → next.
+- [x] `04 play` — eclectic BENTO (4-col desktop / 2-col mobile, `grid-flow-dense`, size tags
+  small/wide/tall, swappable via CMS `active` flag). Goofy voice. **Live now-playing** via
+  Last.fm: `src/app/api/now-playing/route.ts` (needs `LASTFM_API_KEY` env + `lastfmUser` in the
+  CMS profile) + `src/components/NowPlayingCard.tsx` (polls every 25s, shows album art, falls
+  back to static card text when not configured). Wired to Keystatic (play collection) + demo
+  fallback. Desktop + mobile. **← awaiting Rajarshi's review.**
+- [ ] `05 cv` · [ ] `06 self` · [ ] colophon — each: build → STOP for review → next.
+
+ENV NEEDED (later): `LASTFM_API_KEY` in `.env.local` (+ Vercel) for the live now-playing card.
 
 **Content reading pattern (established):** `src/lib/reader.ts` (createReader) +
 `src/lib/content.ts` (typed getters with DEMO fallback when a collection is empty). Server

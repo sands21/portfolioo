@@ -235,3 +235,99 @@ export async function getWriting(): Promise<Writing[]> {
   // latest first, rest keep order
   return mapped.sort((a, b) => Number(b.latest) - Number(a.latest));
 }
+
+/* ---------------- profile (global) ---------------- */
+
+export type Profile = {
+  name: string;
+  tagline: string;
+  origin: string;
+  current: string;
+  lookingFor: string;
+  resume: string | null;
+  email: string;
+  github: string | null;
+  linkedin: string | null;
+  instagram: string | null;
+  medium: string | null;
+  lastfmUser: string;
+};
+
+const demoProfile: Profile = {
+  name: "rajarshi sandilya",
+  tagline:
+    "a curious, slightly chaotic designer & developer who makes things look and feel good.",
+  origin: "assam",
+  current: "bangalore",
+  lookingFor:
+    "a stable tech role — frontend, design engineering, or full-stack. in tech, not sales/marketing. remote or bangalore.",
+  resume: null,
+  email: "hello@example.com",
+  github: "#",
+  linkedin: "#",
+  instagram: "#",
+  medium: "#",
+  lastfmUser: "",
+};
+
+export async function getProfile(): Promise<Profile> {
+  const p = (await reader.singletons.profile.read()) as Record<string, unknown> | null;
+  if (!p) return demoProfile;
+  return {
+    name: (p.name as string) || demoProfile.name,
+    tagline: (p.tagline as string) || demoProfile.tagline,
+    origin: (p.origin as string) || demoProfile.origin,
+    current: (p.current as string) || demoProfile.current,
+    lookingFor: (p.lookingFor as string) || demoProfile.lookingFor,
+    resume: (p.resume as string) ?? null,
+    email: (p.email as string) || demoProfile.email,
+    github: (p.github as string) ?? null,
+    linkedin: (p.linkedin as string) ?? null,
+    instagram: (p.instagram as string) ?? null,
+    medium: (p.medium as string) ?? null,
+    lastfmUser: (p.lastfmUser as string) || "",
+  };
+}
+
+/* ---------------- 04 play ---------------- */
+
+export type PlayCard = {
+  slug: string;
+  title: string;
+  label: string;
+  sub: string;
+  size: TileSize;
+  order: number;
+  isNowPlaying: boolean;
+};
+
+const demoPlay: PlayCard[] = [
+  { slug: "now-playing", title: "somebody", label: "now playing", sub: "keshi · on loop since 2023", size: "tall", order: 0, isNowPlaying: true },
+  { slug: "gaming", title: "elden ring", label: "currently gaming", sub: "again. third time. send help.", size: "wide", order: 1, isNowPlaying: false },
+  { slug: "watching", title: "frieren", label: "watching", sub: "+ jjk, vinland saga on deck", size: "small", order: 2, isNowPlaying: false },
+  { slug: "keyboards", title: "a 65%", label: "typing on", sub: "browns · zero regrets", size: "small", order: 3, isNowPlaying: false },
+  { slug: "f1", title: "f1", label: "sundays are for", sub: "mclaren, lately", size: "small", order: 4, isNowPlaying: false },
+  { slug: "badminton", title: "badminton", label: "my actual sport", sub: "best feeling there is", size: "small", order: 5, isNowPlaying: false },
+  { slug: "saved-reels", title: "847 saved reels", label: "the honest bit", sub: "i swear i'll get to them. someday.", size: "wide", order: 6, isNowPlaying: false },
+  { slug: "astronomy", title: "astronomy", label: "looking up", sub: "still can't find orion", size: "small", order: 7, isNowPlaying: false },
+];
+
+export async function getPlayCards(): Promise<PlayCard[]> {
+  const items = await reader.collections.play.all();
+  if (!items.length) return demoPlay;
+  return items
+    .map((i) => {
+      const e = i.entry as Record<string, unknown>;
+      return {
+        slug: i.slug,
+        title: (e.title as string) ?? i.slug,
+        label: (e.label as string) ?? "",
+        sub: (e.sub as string) ?? "",
+        size: (e.size as TileSize) ?? "small",
+        order: (e.order as number) ?? 0,
+        isNowPlaying: Boolean(e.isNowPlaying),
+      } satisfies PlayCard;
+    })
+    .filter((c) => (items.find((i) => i.slug === c.slug)!.entry as Record<string, unknown>).active !== false)
+    .sort((a, b) => a.order - b.order);
+}
