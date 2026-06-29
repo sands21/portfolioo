@@ -329,7 +329,12 @@ Key files:
   CMS profile) + `src/components/NowPlayingCard.tsx` (polls every 25s, shows album art, falls
   back to static card text when not configured). Wired to Keystatic (play collection) + demo
   fallback. Desktop + mobile. **← awaiting Rajarshi's review.**
-- [ ] `05 cv` · [ ] `06 self` · [ ] colophon — each: build → STOP for review → next.
+- [x] `05 cv` — coral/amber "currently looking for" block + `download résumé ↓` (from profile
+  singleton) + vertical experience timeline (date rail, accent node dots, role/org/blurb/tags,
+  newest-first) + toolkit strip (design/build/motion+video/photo chips, hardcoded in `Cv.tsx`).
+  Wired to Keystatic (experience collection + profile) + demo fallback. Desktop + mobile.
+  **← awaiting Rajarshi's review.**
+- [ ] `06 self` · [ ] colophon — each: build → STOP for review → next.
 
 ENV NEEDED (later): `LASTFM_API_KEY` in `.env.local` (+ Vercel) for the live now-playing card.
 

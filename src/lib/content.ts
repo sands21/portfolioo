@@ -331,3 +331,60 @@ export async function getPlayCards(): Promise<PlayCard[]> {
     .filter((c) => (items.find((i) => i.slug === c.slug)!.entry as Record<string, unknown>).active !== false)
     .sort((a, b) => a.order - b.order);
 }
+
+/* ---------------- 05 cv ---------------- */
+
+export type Experience = {
+  slug: string;
+  role: string;
+  org: string;
+  dates: string;
+  order: number;
+  blurb: string;
+  tags: string[];
+};
+
+const demoExperience: Experience[] = [
+  {
+    slug: "content-editor-sns",
+    role: "content editor",
+    org: "sns · remote",
+    dates: "2024 — now",
+    order: 0,
+    blurb:
+      "content + editing systems for an early-stage startup. keeping a fast publishing pipeline tasteful.",
+    tags: ["content", "editing", "systems"],
+  },
+  {
+    slug: "freelance",
+    role: "freelance developer + video editor",
+    org: "self · remote",
+    dates: "2023 — now",
+    order: 1,
+    blurb:
+      "websites, interfaces, and edits for clients — design that actually feels good, not just looks it.",
+    tags: ["react", "figma", "premiere", "colour"],
+  },
+];
+
+export async function getExperience(): Promise<Experience[]> {
+  const items = await reader.collections.experience.all();
+  if (!items.length) return demoExperience;
+  return items
+    .map((i) => {
+      const e = i.entry as Record<string, unknown>;
+      return {
+        slug: i.slug,
+        role: (e.role as string) ?? i.slug,
+        org: (e.org as string) ?? "",
+        dates: (e.dates as string) ?? "",
+        order: (e.order as number) ?? 0,
+        blurb: (e.blurb as string) ?? "",
+        tags: ((e.tags as string) ?? "")
+          .split(",")
+          .map((t) => t.trim())
+          .filter(Boolean),
+      } satisfies Experience;
+    })
+    .sort((a, b) => a.order - b.order);
+}
